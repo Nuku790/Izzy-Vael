@@ -32,7 +32,6 @@
       background-position: center top;
       background-repeat: no-repeat;
     }
-    /* Dark overlay so text stays legible */
     .bg::before {
       content: '';
       position: absolute; inset: 0;
@@ -43,7 +42,6 @@
         rgba(10, 8, 18, 0.72) 100%
       );
     }
-    /* Subtle grain */
     .bg::after {
       content: '';
       position: absolute; inset: 0;
@@ -71,17 +69,6 @@
       opacity: 0;
       animation: fadeUp 1s ease 0.2s forwards;
     }
-
-    nav a {
-      font-weight: 300;
-      font-size: 0.62rem;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--faint);
-      text-decoration: none;
-      transition: color 0.3s;
-    }
-    nav a:hover { color: var(--white); }
 
     /* ── CENTER ── */
     .center {
@@ -116,31 +103,12 @@
       border-radius: 1px;
       box-shadow: 0 0 60px rgba(168,191,207,0.07), 0 30px 80px rgba(0,0,0,0.75);
     }
-    .cover-placeholder {
-      width: clamp(130px, 20vh, 240px);
-      height: clamp(130px, 20vh, 240px);
-      background: linear-gradient(135deg, #1a2a3a 0%, #0d1520 100%);
-      border-radius: 1px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 0 60px rgba(168,191,207,0.07), 0 30px 80px rgba(0,0,0,0.75);
-      border: 1px solid rgba(168,191,207,0.08);
-    }
-    .cover-placeholder span {
-      font-weight: 300;
-      font-size: 0.6rem;
-      letter-spacing: 0.45em;
-      color: var(--faint);
-      text-transform: uppercase;
-    }
 
     /* ── ARTIST NAME ── */
     .title-block {
       opacity: 0;
       animation: fadeUp 1.2s ease 0.65s forwards;
     }
-
     .artist-name {
       font-weight: 300;
       font-size: clamp(1.3rem, 3.8vw, 3rem);
@@ -149,10 +117,8 @@
       line-height: 1;
       color: var(--white);
       text-transform: uppercase;
-      /* compensate trailing letter-spacing so it looks centred */
       padding-left: 0.55em;
     }
-
     .track-name {
       margin-top: 10px;
       font-weight: 300;
@@ -174,7 +140,6 @@
       opacity: 0;
       animation: fadeUp 1.2s ease 0.9s forwards;
     }
-
     .btn-row {
       display: grid;
       gap: 7px;
@@ -201,6 +166,7 @@
       background: rgba(168,191,207,0.02);
       transition: all 0.3s ease;
       white-space: nowrap;
+      cursor: pointer;
     }
     .btn:hover {
       border-color: rgba(168,191,207,0.5);
@@ -208,7 +174,6 @@
       background: rgba(168,191,207,0.06);
     }
     .btn svg { flex-shrink: 0; opacity: 0.75; }
-
     .btn.coming-soon {
       opacity: 0.28;
       cursor: default;
@@ -223,7 +188,6 @@
       opacity: 0;
       animation: fadeUp 1.2s ease 1.1s forwards;
     }
-
     .footer-note {
       font-weight: 300;
       font-size: 0.55rem;
@@ -231,6 +195,135 @@
       text-transform: uppercase;
       color: var(--faint);
     }
+
+    /* ── POPUP OVERLAY ── */
+    .popup-overlay {
+      position: fixed; inset: 0; z-index: 100;
+      background: rgba(8, 10, 13, 0.85);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+    .popup-overlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    /* ── POPUP BOX ── */
+    .popup {
+      position: relative;
+      width: min(420px, 90vw);
+      padding: 48px 40px 40px;
+      border: 1px solid rgba(168,191,207,0.15);
+      background: rgba(12, 15, 20, 0.95);
+      transform: translateY(20px);
+      transition: transform 0.4s ease;
+    }
+    .popup-overlay.active .popup {
+      transform: translateY(0);
+    }
+
+    .popup-close {
+      position: absolute;
+      top: 16px; right: 20px;
+      background: none;
+      border: none;
+      color: var(--faint);
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: color 0.3s;
+      font-weight: 200;
+      letter-spacing: 0.05em;
+      padding: 4px 8px;
+    }
+    .popup-close:hover { color: var(--white); }
+
+    .popup-title {
+      font-weight: 300;
+      font-size: clamp(0.7rem, 2vw, 0.85rem);
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+    .popup-sub {
+      font-weight: 300;
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      opacity: 0.7;
+      margin-bottom: 28px;
+    }
+
+    .popup-form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .popup-input {
+      width: 100%;
+      padding: 12px 16px;
+      background: rgba(168,191,207,0.04);
+      border: 1px solid rgba(168,191,207,0.2);
+      border-radius: 1px;
+      color: var(--white);
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-weight: 300;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+    .popup-input::placeholder {
+      color: var(--faint);
+      letter-spacing: 0.15em;
+    }
+    .popup-input:focus {
+      border-color: rgba(168,191,207,0.5);
+    }
+
+    .popup-submit {
+      width: 100%;
+      padding: 12px 16px;
+      background: rgba(168,191,207,0.08);
+      border: 1px solid rgba(168,191,207,0.3);
+      border-radius: 1px;
+      color: var(--white);
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-weight: 300;
+      font-size: 0.62rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 4px;
+    }
+    .popup-submit:hover {
+      background: rgba(168,191,207,0.15);
+      border-color: rgba(168,191,207,0.6);
+    }
+
+    .popup-success {
+      display: none;
+      text-align: center;
+      padding: 16px 0 8px;
+    }
+    .popup-success p {
+      font-weight: 300;
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    /* Hidden Mailchimp bot field */
+    .mc-hidden { position: absolute; left: -5000px; }
 
     /* ── ANIMATIONS ── */
     @keyframes fadeUp {
@@ -249,24 +342,56 @@
       }
       .btn-row.cols-3 { grid-template-columns: 1fr 1fr; }
       .artist-name { font-size: clamp(1.1rem, 7vw, 1.6rem); }
+      .popup { padding: 40px 24px 32px; }
     }
   </style>
 </head>
 <body>
   <div class="bg"></div>
-  <div class="page">
 
-    <!-- HEADER -->
+  <!-- ── POPUP ── -->
+  <div class="popup-overlay" id="popupOverlay">
+    <div class="popup">
+      <button class="popup-close" onclick="closePopup()">✕</button>
+      <p class="popup-title">Get Notified</p>
+      <p class="popup-sub">When Goldstar drops</p>
+
+      <form class="popup-form" id="mc-form"
+        action="https://izzyvael.us8.list-manage.com/subscribe/post?u=4a5f4e45d2319f573c87e5a36&amp;id=ee3b6ec32a&amp;f_id=001e1ee1f0"
+        method="post"
+        target="_blank">
+
+        <input
+          class="popup-input"
+          type="email"
+          name="EMAIL"
+          placeholder="Your email address"
+          required
+        />
+
+        <!-- Mailchimp bot protection — do not remove -->
+        <div class="mc-hidden" aria-hidden="true">
+          <input type="text" name="b_4a5f4e45d2319f573c87e5a36_ee3b6ec32a" tabindex="-1" value="">
+        </div>
+
+        <button class="popup-submit" type="submit">Notify Me</button>
+      </form>
+
+      <div class="popup-success" id="popupSuccess">
+        <p>You're on the list ✦</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PAGE ── -->
+  <div class="page">
     <header></header>
 
-    <!-- CENTER -->
     <main class="center">
 
       <!-- COVER ART -->
-      <!-- When you have cover.jpg ready, replace the div below with: -->
-      <!-- <img src="cover.jpg" alt="Goldstar" class="cover" /> -->
       <div class="cover-wrap">
-     <img src="cover.jpg" alt="Goldstar" class="cover" />
+        <img src="cover.jpg" alt="Goldstar" class="cover" />
       </div>
 
       <!-- NAME + TRACK -->
@@ -278,7 +403,7 @@
       <!-- BUTTON GRID -->
       <div class="btn-grid">
 
-        <!-- Row 1: Spotify + Apple Music (greyed until live) -->
+        <!-- Row 1: Spotify + Apple Music -->
         <div class="btn-row cols-2">
           <a class="btn coming-soon" href="#" aria-label="Spotify">
             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.494 17.324a.75.75 0 0 1-1.032.249c-2.824-1.726-6.38-2.116-10.566-1.16a.75.75 0 1 1-.334-1.463c4.579-1.045 8.507-.595 11.682 1.341a.75.75 0 0 1 .25 1.033zm1.466-3.26a.937.937 0 0 1-1.288.31c-3.231-1.986-8.156-2.562-11.977-1.402a.937.937 0 1 1-.544-1.794c4.366-1.325 9.79-.683 13.5 1.598a.937.937 0 0 1 .309 1.288zm.125-3.395c-3.878-2.303-10.274-2.515-13.977-1.391a1.124 1.124 0 1 1-.652-2.151c4.249-1.29 11.304-1.04 15.768 1.608a1.124 1.124 0 0 1-1.139 1.934z"/></svg>
@@ -290,7 +415,7 @@
           </a>
         </div>
 
-        <!-- Row 2: YouTube (full width) -->
+        <!-- Row 2: YouTube -->
         <div class="btn-row cols-1">
           <a class="btn" href="https://www.youtube.com/@izzyvael" target="_blank" rel="noopener" aria-label="YouTube">
             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
@@ -308,20 +433,37 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
             TikTok
           </a>
-          <a class="btn" href="mailto:izzyvael@gmail.com" aria-label="Email">
+          <button class="btn" onclick="openPopup()" aria-label="Get Notified">
             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-            Email
-          </a>
+            Get Notified
+          </button>
         </div>
 
       </div>
     </main>
 
-    <!-- FOOTER -->
     <footer>
       <p class="footer-note">© 2026 &nbsp; I Z Z Y &nbsp; V A E L</p>
     </footer>
-
   </div>
+
+  <script>
+    function openPopup() {
+      document.getElementById('popupOverlay').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function closePopup() {
+      document.getElementById('popupOverlay').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    // Close on overlay click
+    document.getElementById('popupOverlay').addEventListener('click', function(e) {
+      if (e.target === this) closePopup();
+    });
+    // Close on Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closePopup();
+    });
+  </script>
 </body>
 </html>
