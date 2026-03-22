@@ -464,6 +464,29 @@
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape') closePopup();
     });
+
+    // Submit in background — no redirect
+    document.getElementById('mc-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const email = this.querySelector('input[type="email"]').value;
+      const url = this.action.replace('/post?', '/post-json?') + '&EMAIL=' + encodeURIComponent(email) + '&c=mcCallback';
+
+      window.mcCallback = function(data) {
+        document.getElementById('mc-form').style.display = 'none';
+        const success = document.getElementById('popupSuccess');
+        success.style.display = 'block';
+        success.querySelector('p').textContent = data.result === 'success'
+          ? "You're on the list  ✦"
+          : (data.msg && data.msg.includes('already subscribed')
+              ? 'Already on the list ✦'
+              : 'Something went wrong — try again.');
+        setTimeout(closePopup, 2800);
+      };
+
+      const script = document.createElement('script');
+      script.src = url;
+      document.body.appendChild(script);
+    });
   </script>
 </body>
 </html>
